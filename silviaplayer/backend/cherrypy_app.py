@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
 from silviaplayer.backend import model
+from silviaplayer.backend.jinja_template import render_template
+
 import cherrypy
 from cherrypy import tools
 import wsgiref.handlers
 
 
 class WebUI(object):
-
     @cherrypy.expose
     def index(self):
-        return "index page"
+        return render_template('index.html')
 
-   @cherrypy.expose
+    @cherrypy.expose
     def cooltv_list(self):
         pass
 
     @cherrypy.expose
     def cooltv_refresh(self):
-        pass
+        model.start_refresh_channels()
+        return "refresh"
 
     @cherrypy.expose
     def cooltv_status(self):
-        pass
+        return "status"
 
 
 
@@ -33,8 +35,7 @@ class ChannelResource(object):
         results = model.search_channels(None)
         return {
             'items':[{
-                    'URI': 'channel/%s/' % str(i.id),
-                    'id': str(i.id),
+                    'URI': 'channel/%s/' % i.name,
                     'name': i.name,
                     'sop_urls': i.sop_urls,
                     } for i in results],
