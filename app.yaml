@@ -8,7 +8,7 @@ handlers:
 - url: /static
   static_dir: frontend/static/
 - url: /.*
-  script: mapp.py
+  script: app.py
   login: required
 
 libraries:
