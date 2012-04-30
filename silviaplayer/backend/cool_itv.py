@@ -5,9 +5,10 @@ import urllib2
 from StringIO import StringIO
 from itertools import groupby
 
+url = 'http://www.cool-itv.net/'
+
 
 def get_channels():
-    url = 'http://www.cool-itv.net/'
 
     def get_pages():
         content = urllib2.urlopen(url).read()
@@ -23,11 +24,10 @@ def get_channels():
 
     pairs = []
     for p in get_pages():
-        if 'protv' in p:
-            sop_url = get_sop_url(url + p)
-            if sop_url:
-                ch_name = re.sub(r'ch/(.*)-s[0-9]*\.html', r'\1', p)
-                pairs.append((ch_name, sop_url))
+        sop_url = get_sop_url(url + p)
+        if sop_url:
+            ch_name = re.sub(r'ch/(.*?)(-s\d+)?\.html', r'\1', p)
+            pairs.append((ch_name, sop_url))
 
     for ch, stations in groupby(pairs, key=lambda x: x[0]):
         yield ch, list(s[1] for s in stations)

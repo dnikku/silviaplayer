@@ -1,4 +1,4 @@
-from cool_itv import get_channels
+import cool_itv
 from google.appengine.ext import db, deferred
 import logging
 
@@ -7,6 +7,7 @@ logger = logging.getLogger('silviaplayer.models')
 
 
 class Channel(db.Model):
+    site_url = db.StringProperty(required=True)
     name = db.StringProperty(required=True)
     sop_urls = db.StringListProperty()
 
@@ -22,7 +23,7 @@ def run_import():
     existings = dict((i.name, i) for i in Channel.all().fetch(100))
 
     modified = []
-    for name, urls in get_channels():
+    for name, urls in cool_itv.get_channels():
         logger.info('fetched channel: ' + name)
         if name in existings:
             channel = existings[name]
@@ -30,7 +31,7 @@ def run_import():
                 channel.sop_urls = urls
                 modified.append(channel)
         else:
-            modified.append(Channel(name=name, sop_urls=urls))
+            modified.append(Channel(site_url=cool_itv.url, name=name, sop_urls=urls))
 
     if modified:
         logger.info('%s channels has been updated.', len(modified))
