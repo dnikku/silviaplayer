@@ -6,9 +6,9 @@ threadsafe: false
 
 handlers:
 - url: /static
-  static_dir: silviaplayer/frontend/static/
+  static_dir: frontend/static/
 - url: /.*
-  script: app.py
+  script: mapp.py
   login: required
 
 libraries:

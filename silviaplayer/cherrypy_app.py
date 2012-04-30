@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from silviaplayer.backend import model
-from silviaplayer.backend.jinja_template import render_template
+from silviaplayer import model
+from silviaplayer.jinja_template import render_template
 
 import cherrypy
 from cherrypy import tools
