@@ -7,6 +7,9 @@ threadsafe: false
 handlers:
 - url: /static
   static_dir: frontend/static/
+- url: /model
+  static_dir: frontend/model/
+  mime_type: text/javascript
 - url: /.*
   script: app.py
   login: required

@@ -4,7 +4,7 @@ from os import path
 
 FRONTEND_PATH = path.join(path.dirname(__file__), '..', 'frontend')
 
-env = Environment(loader=FileSystemLoader(FRONTEND_PATH))
+env = Environment(loader=FileSystemLoader(FRONTEND_PATH + '/templates'))
 
 
 def render_template(template, **kwargs):

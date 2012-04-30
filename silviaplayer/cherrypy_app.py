@@ -13,8 +13,8 @@ class WebUI(object):
         return render_template('index.html')
 
     @cherrypy.expose
-    def cooltv_list(self):
-        pass
+    def channel_list(self):
+        return render_template('channel_list.html')
 
     @cherrypy.expose
     def cooltv_refresh(self):
