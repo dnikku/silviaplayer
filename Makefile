@@ -16,3 +16,6 @@ clean-pyc:
 pip-freeze:
 	pip freeze > REQUIREMENTS
 	cat REQUIREMENTS
+
+run-import:
+	cd silviaplayer/backend; ./cool_itv.py
