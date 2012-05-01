@@ -13,7 +13,7 @@ class Channel(db.Model):
 
 
 def search_channels(text):
-    q = Channel.all().order('name').fetch(10)
+    q = Channel.all().order('name').fetch(100)
     return q
 
 
