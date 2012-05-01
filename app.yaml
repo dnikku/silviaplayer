@@ -10,6 +10,8 @@ handlers:
 - url: /model
   static_dir: frontend/model/
   mime_type: text/javascript
+- url: /api/.*
+  script: app.py
 - url: /.*
   script: app.py
   login: required
