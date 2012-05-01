@@ -44,7 +44,7 @@ class PlayingChannelView extends Backbone.View
 
   render: ->
     $(@el).attr id: @model.name
-    $(@el).addClass 'grid-3'
+    $(@el).addClass 'grid-4'
     $(@el).html @template @model.toJSON()
     @
 

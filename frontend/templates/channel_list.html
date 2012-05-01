@@ -36,26 +36,30 @@
   <!------------- templates ------------->
 
   <script  id="channel-template" type="text/template">
-    <%= name %>
     <% if (play) { %>
-      (Play)
-    <% } %>
+    <span style="color:green;">
+      <%= name %>(playing)
+    </span>
+    <% } else { %>
+    <span style="color:grey;">
+      <%= name %>
+    </span>
     <ul>
       <% _.each(sop_urls, function(station, i){ %>
-      <li style="display: inline;"><a class="play" href='<%= station %>'>S<%= i%></a></li>
+      <li style="display: inline;"><a class="play" href='<%= station %>'>bbbb
       <% }) %>
     </ul>
+    <% } %>
   </script>
 
   <script  id="playing-channel-template" type="text/template">
-      <div class="player" style="background-color:grey;">
-        <object id="SopPlayer" classid="clsid:8FEFF364-6A5F-4966-A917-A3AC28411659"
-                height="330" width="450">
-          <param name="AutoStart" value="1" />
-          <param name="SopAddress" value="<%= play %>"/>
-          <param name="ChannelName" value="<%= name %>"/>
-        </object>
-      </div>
+    <div class="player" style="background-color:grey;">
+      <object class="player" classid="clsid:8FEFF364-6A5F-4966-A917-A3AC28411659">
+        <param name="AutoStart" value="1" />
+        <param name="SopAddress" value="<%= play %>"/>
+        <param name="ChannelName" value="<%= name %>"/>
+      </object>
+    </div>
     <%= name %>
     <button class="stop" type="button">Stop</button>
   </script>
