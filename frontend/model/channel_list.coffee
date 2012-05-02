@@ -3,8 +3,11 @@ log_info = (text) ->
   console.info text if window.console
 
 
-
-class Item extends Backbone.Model
+###
+# Model for Channel
+#
+###
+class Channel extends Backbone.Model
   defaults:
     play: null
 
@@ -20,8 +23,12 @@ class Item extends Backbone.Model
     log_info "stop: #{@get 'name'}"
 
 
-class List extends Backbone.Collection
-  model: Item
+###
+# the collection of Channel items
+#
+###
+class ChannelList extends Backbone.Collection
+  model: Channel
 
   url: '/api/channel/'
 
@@ -31,6 +38,10 @@ class List extends Backbone.Collection
 
 #----------------------------------
 
+###
+# view for a playing channel, embedds the actual activex sop player
+#
+###
 class PlayingChannelView extends Backbone.View
   tagName: 'li'
 
@@ -53,6 +64,10 @@ class PlayingChannelView extends Backbone.View
     $(@el).remove()
 
 
+###
+# view for a channel in available lists
+#
+###
 class ChannelView extends Backbone.View
   tagName: 'li'
 
@@ -75,31 +90,51 @@ class ChannelView extends Backbone.View
     @model.start e.target
 
 
-
+###
+# display the available and playing channels
+#
+###
 class ListView extends Backbone.View
-  el2: $('#playing_channels')
-  el: $('#channels')
+  el: $('#channel_list')
+
+  events:
+    "keydown #search": "liveFilter"
 
   initialize: ->
     _.bindAll @
 
-    @collection = new List
-    @collection.bind 'add', @appendItem
+    @collection = new ChannelList
+    #    @collection.bind 'add', @appendItem
     @collection.bind 'change', @channelChanged
-
-    @collection.fetch add: true
+    @collection.fetch success: @filterChannels
 
   appendItem: (item) ->
-    log_info "append item"
+    #    log_info "appendItem: #{item}"
     item_view = new ChannelView model: item
-    $(@el).append item_view.render().el
+    @$('#channels').append item_view.render().el
 
   channelChanged: (ch) ->
     if ch.get 'play'
       item_view = new PlayingChannelView model: ch
-      $('#playing_channels').append item_view.render().el
+      @$('#playing_channels').append item_view.render().el
 
-    log_info "playable go first: " + ch
+  timeout: null
+  liveFilter: ->
+    clearTimeout(@timeout) if @timeout
+    timeout = setTimeout(@filterChannels, 50)
+
+  filterChannels: ->
+    @$('#channels').children().remove()
+
+    text = @$('#search').val()
+    log_info "filter text: #{text}"
+
+    l = @collection.models
+    if text != ""
+      filter = (x) -> x.get('play') or x.get('name').indexOf(text) != -1
+      l = _.filter(l, filter)
+    _.each l, @appendItem
 
 
+# the main
 window.list_view = new ListView
