@@ -24,6 +24,7 @@
     <div class="grids">
       <div class="grid-12">
         <input type="text" id="search" />
+        <span id="searchResult"></span>
       </div>
 
       <ul id="channels" class="grids"></ul>
@@ -63,7 +64,9 @@
         <param name="ChannelName" value="<%= name %>"/>
       </object>
     </div>
-    <%= name %>
+    <span style="color:green;">
+      <%= name %>(playing)
+    </span>
     <button class="stop" type="button">Stop</button>
   </script>
 

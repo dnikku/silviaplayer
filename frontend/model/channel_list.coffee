@@ -125,6 +125,7 @@ class ListView extends Backbone.View
 
   filterChannels: ->
     @$('#channels').children().remove()
+    @$('#searchResult').text("")
 
     text = @$('#search').val()
     log_info "filter text: #{text}"
@@ -133,7 +134,10 @@ class ListView extends Backbone.View
     if text != ""
       filter = (x) -> x.get('play') or x.get('name').indexOf(text) != -1
       l = _.filter(l, filter)
+      [l_size, all_size] = [_.size(l), _.size(@collection.models)]
+      @$('#searchResult').text("#{l_size} matched from #{all_size}")
     _.each l, @appendItem
+
 
 
 # the main
