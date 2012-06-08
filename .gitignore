@@ -1,2 +1,7 @@
 *.pyc
 /cherrypy
+_ReSharper*
+*\.user
+*\.suo
+bin/
+obj/
